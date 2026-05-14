@@ -1,0 +1,25 @@
+# IntelliJ
+.idea/
+*.iml
+*.iws
+*.ipr
+out/
+
+# Maven
+target/
+*.class
+
+# Gradle (dacă folosești)
+.gradle/
+build/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+application-local.properties
