@@ -1,42 +1,32 @@
 import { useState, useEffect } from 'react';
 import {
-  getAppointments, createAppointment, updateAppointment, deleteAppointment,
+  getMedicalRecords, createMedicalRecord, updateMedicalRecord, deleteMedicalRecord,
   getPatients, getDoctors,
 } from '../services/api';
 import Modal, { ConfirmDialog } from '../components/Modal';
 
-const STATUSES = ['SCHEDULED','COMPLETED','CANCELLED','NO_SHOW'];
-const statusBadge = {
-  SCHEDULED: 'badge-blue',
-  COMPLETED: 'badge-green',
-  CANCELLED: 'badge-gray',
-  NO_SHOW:   'badge-red',
-};
-
 const EMPTY = {
-  patientId: '', doctorId: '', appointmentDate: '',
-  status: 'SCHEDULED', reason: '', notes: '',
+  patientId: '', doctorId: '', recordDate: '',
+  diagnosis: '', treatment: '', notes: '',
 };
 
-export default function AppointmentsPage() {
-  const [items, setItems]         = useState([]);
-  const [patients, setPatients]   = useState([]);
-  const [doctors, setDoctors]     = useState([]);
-  const [loading, setLoading]     = useState(true);
-  const [error, setError]         = useState(null);
-  const [search, setSearch]       = useState('');
+export default function MedicalRecordsPage() {
+  const [items, setItems]       = useState([]);
+  const [patients, setPatients] = useState([]);
+  const [doctors, setDoctors]   = useState([]);
+  const [loading, setLoading]   = useState(true);
+  const [error, setError]       = useState(null);
+  const [search, setSearch]     = useState('');
   const [showModal, setShowModal] = useState(false);
-  const [editItem, setEditItem]   = useState(null);
-  const [form, setForm]           = useState(EMPTY);
-  const [saving, setSaving]       = useState(false);
+  const [editItem, setEditItem] = useState(null);
+  const [form, setForm]         = useState(EMPTY);
+  const [saving, setSaving]     = useState(false);
   const [deleteTarget, setDeleteTarget] = useState(null);
 
   const load = () => {
     setLoading(true);
-    Promise.all([getAppointments(), getPatients(), getDoctors()])
-      .then(([a, p, d]) => {
-        setItems(a.data); setPatients(p.data); setDoctors(d.data); setError(null);
-      })
+    Promise.all([getMedicalRecords(), getPatients(), getDoctors()])
+      .then(([r, p, d]) => { setItems(r.data); setPatients(p.data); setDoctors(d.data); setError(null); })
       .catch(() => setError('Failed to load data.'))
       .finally(() => setLoading(false));
   };
@@ -45,12 +35,12 @@ export default function AppointmentsPage() {
   const openAdd  = () => { setForm(EMPTY); setEditItem(null); setShowModal(true); };
   const openEdit = (item) => {
     setForm({
-      patientId:       item.patient?.id ?? '',
-      doctorId:        item.doctor?.id ?? '',
-      appointmentDate: item.appointmentDate?.slice(0, 16) ?? '',
-      status:          item.status ?? 'SCHEDULED',
-      reason:          item.reason ?? '',
-      notes:           item.notes ?? '',
+      patientId:  item.patient?.id ?? '',
+      doctorId:   item.doctor?.id ?? '',
+      recordDate: item.recordDate ?? '',
+      diagnosis:  item.diagnosis ?? '',
+      treatment:  item.treatment ?? '',
+      notes:      item.notes ?? '',
     });
     setEditItem(item); setShowModal(true);
   };
@@ -64,13 +54,13 @@ export default function AppointmentsPage() {
       patient: patientId ? { id: Number(patientId) } : null,
       doctor:  doctorId  ? { id: Number(doctorId)  } : null,
     };
-    const req = editItem ? updateAppointment(editItem.id, payload) : createAppointment(payload);
+    const req = editItem ? updateMedicalRecord(editItem.id, payload) : createMedicalRecord(payload);
     req.then(() => { closeModal(); load(); }).catch(() => alert('Save failed.')).finally(() => setSaving(false));
   };
 
   const handleDelete = () => {
     setSaving(true);
-    deleteAppointment(deleteTarget.id)
+    deleteMedicalRecord(deleteTarget.id)
       .then(() => { setDeleteTarget(null); load(); })
       .catch(() => alert('Delete failed.'))
       .finally(() => setSaving(false));
@@ -81,27 +71,27 @@ export default function AppointmentsPage() {
   const filtered = items.filter(item => {
     const pat = item.patient ? `${item.patient.firstName} ${item.patient.lastName}` : '';
     const doc = item.doctor  ? `${item.doctor.firstName} ${item.doctor.lastName}` : '';
-    return `${pat} ${doc} ${item.reason ?? ''}`.toLowerCase().includes(search.toLowerCase());
+    return `${pat} ${doc} ${item.diagnosis ?? ''}`.toLowerCase().includes(search.toLowerCase());
   });
 
   return (
     <div>
       <div className="page-header">
         <div className="page-header-left">
-          <h1>Appointments</h1>
-          <p className="page-subtitle">{items.length} appointments total</p>
+          <h1>Medical Records</h1>
+          <p className="page-subtitle">{items.length} records total</p>
         </div>
-        <button className="btn btn-primary" onClick={openAdd}>+ Add Appointment</button>
+        <button className="btn btn-primary" onClick={openAdd}>+ Add Record</button>
       </div>
 
       {error && <div className="alert alert-error">⚠ {error}</div>}
 
       <div className="card">
         <div className="card-header">
-          <span className="card-title">All Appointments</span>
+          <span className="card-title">All Medical Records</span>
           <div className="search-bar">
             <span>🔍</span>
-            <input placeholder="Search patient, doctor, reason…" value={search} onChange={e => setSearch(e.target.value)} />
+            <input placeholder="Search patient, doctor, diagnosis…" value={search} onChange={e => setSearch(e.target.value)} />
           </div>
         </div>
         <div className="table-wrap">
@@ -114,15 +104,15 @@ export default function AppointmentsPage() {
                   <th>#</th>
                   <th>Patient</th>
                   <th>Doctor</th>
-                  <th>Date &amp; Time</th>
-                  <th>Status</th>
-                  <th>Reason</th>
+                  <th>Date</th>
+                  <th>Diagnosis</th>
+                  <th>Treatment</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {filtered.length === 0 ? (
-                  <tr><td colSpan={7}><div className="table-empty"><div className="table-empty-icon">📅</div>No appointments found.</div></td></tr>
+                  <tr><td colSpan={7}><div className="table-empty"><div className="table-empty-icon">📋</div>No records found.</div></td></tr>
                 ) : filtered.map(d => (
                   <tr key={d.id}>
                     <td className="text-muted font-mono">{d.id}</td>
@@ -132,13 +122,9 @@ export default function AppointmentsPage() {
                     <td>
                       {d.doctor ? `Dr. ${d.doctor.firstName} ${d.doctor.lastName}` : <span className="text-muted">—</span>}
                     </td>
-                    <td className="font-mono">
-                      {d.appointmentDate ? new Date(d.appointmentDate).toLocaleString() : '—'}
-                    </td>
-                    <td>
-                      <span className={`badge ${statusBadge[d.status] ?? 'badge-gray'}`}>{d.status}</span>
-                    </td>
-                    <td className="truncate">{d.reason || <span className="text-muted">—</span>}</td>
+                    <td>{d.recordDate || '—'}</td>
+                    <td className="truncate" style={{ maxWidth: 200 }}>{d.diagnosis || <span className="text-muted">—</span>}</td>
+                    <td className="truncate" style={{ maxWidth: 200 }}>{d.treatment || <span className="text-muted">—</span>}</td>
                     <td>
                       <div className="actions-cell">
                         <button className="btn btn-ghost btn-sm" onClick={() => openEdit(d)}>✏️</button>
@@ -154,7 +140,7 @@ export default function AppointmentsPage() {
       </div>
 
       {showModal && (
-        <Modal title={editItem ? 'Edit Appointment' : 'Add Appointment'} onClose={closeModal} onSave={handleSave} saving={saving} wide>
+        <Modal title={editItem ? 'Edit Medical Record' : 'Add Medical Record'} onClose={closeModal} onSave={handleSave} saving={saving} wide>
           <div className="form-grid">
             <div className="form-group">
               <label>Patient</label>
@@ -170,19 +156,17 @@ export default function AppointmentsPage() {
                 {doctors.map(d => <option key={d.id} value={d.id}>Dr. {d.firstName} {d.lastName}</option>)}
               </select>
             </div>
-            <div className="form-group">
-              <label>Date &amp; Time</label>
-              <input type="datetime-local" value={form.appointmentDate} onChange={set('appointmentDate')} />
-            </div>
-            <div className="form-group">
-              <label>Status</label>
-              <select value={form.status} onChange={set('status')}>
-                {STATUSES.map(s => <option key={s} value={s}>{s}</option>)}
-              </select>
+            <div className="form-group full">
+              <label>Record Date</label>
+              <input type="date" value={form.recordDate} onChange={set('recordDate')} />
             </div>
             <div className="form-group full">
-              <label>Reason</label>
-              <input value={form.reason} onChange={set('reason')} placeholder="Reason for appointment…" />
+              <label>Diagnosis</label>
+              <textarea value={form.diagnosis} onChange={set('diagnosis')} placeholder="Describe the diagnosis…" />
+            </div>
+            <div className="form-group full">
+              <label>Treatment</label>
+              <textarea value={form.treatment} onChange={set('treatment')} placeholder="Describe the treatment…" />
             </div>
             <div className="form-group full">
               <label>Notes</label>
@@ -194,7 +178,7 @@ export default function AppointmentsPage() {
 
       {deleteTarget && (
         <ConfirmDialog
-          message={`Delete appointment #${deleteTarget.id}?`}
+          message={`Delete medical record #${deleteTarget.id}?`}
           onConfirm={handleDelete}
           onCancel={() => setDeleteTarget(null)}
           saving={saving}

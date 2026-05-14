@@ -6,10 +6,10 @@ A full-stack hospital management application built as a Databases laboratory pro
 
 | Layer | Technology |
 |-------|-----------|
-| Backend | Java 17, Spring Boot 4, Spring Data JPA |
+| Backend | Java 17, Spring Boot 4.0.6, Spring Data JPA |
 | Database | MySQL |
 | API Docs | SpringDoc OpenAPI (Swagger UI) |
-| Frontend | React + Vite |
+| Frontend | React 19, Vite, React Router, Axios |
 
 ## Database Schema (10 Tables)
 
@@ -64,8 +64,26 @@ proiect_db/
 │   └── CorsConfig.java # CORS configuration for frontend
 ├── frontend/           # React + Vite frontend
 │   └── src/
-│       ├── pages/      # Patients, Doctors, Departments, Appointments
-│       └── App.jsx
+│       ├── api/
+│       │   └── axiosClient.js      # Axios instance (baseURL, headers)
+│       ├── services/
+│       │   └── api.js              # CRUD helpers for all 10 entities
+│       ├── components/
+│       │   ├── Layout.jsx          # App shell: sidebar nav + topbar
+│       │   └── Modal.jsx           # Reusable modal dialog
+│       ├── pages/
+│       │   ├── DashboardPage.jsx   # Live stat cards for all entities
+│       │   ├── DepartmentsPage.jsx
+│       │   ├── DoctorsPage.jsx
+│       │   ├── PatientsPage.jsx
+│       │   ├── RoomsPage.jsx
+│       │   ├── AppointmentsPage.jsx
+│       │   ├── MedicalRecordsPage.jsx
+│       │   ├── MedicationsPage.jsx
+│       │   ├── PrescriptionsPage.jsx
+│       │   ├── AdmissionsPage.jsx
+│       │   └── BillsPage.jsx
+│       └── App.jsx                 # Router (all 10 routes + dashboard)
 └── pom.xml
 ```
 
@@ -93,7 +111,7 @@ proiect_db/
    mvn spring-boot:run
    ```
 
-   The API will be available at `http://localhost:8080`.
+   The API will be available at `http://localhost:8081/api/hospital`.
 
 ### Frontend
 
@@ -110,7 +128,7 @@ The frontend will be available at `http://localhost:5173`.
 Swagger UI is available at:
 
 ```
-http://localhost:8080/swagger-ui.html
+http://localhost:8081/swagger-ui.html
 ```
 
 ## REST Endpoints
@@ -119,13 +137,13 @@ Each entity exposes standard CRUD endpoints:
 
 | Entity | Base Path |
 |--------|-----------|
-| Departments | `/api/departments` |
-| Doctors | `/api/doctors` |
-| Patients | `/api/patients` |
-| Rooms | `/api/rooms` |
-| Appointments | `/api/appointments` |
-| Medical Records | `/api/medical-records` |
-| Medications | `/api/medications` |
-| Prescriptions | `/api/prescriptions` |
-| Admissions | `/api/admissions` |
-| Bills | `/api/bills` |
+| Departments | `/api/hospital/departments` |
+| Doctors | `/api/hospital/doctors` |
+| Patients | `/api/hospital/patients` |
+| Rooms | `/api/hospital/rooms` |
+| Appointments | `/api/hospital/appointments` |
+| Medical Records | `/api/hospital/medical-records` |
+| Medications | `/api/hospital/medications` |
+| Prescriptions | `/api/hospital/prescriptions` |
+| Admissions | `/api/hospital/admissions` |
+| Bills | `/api/hospital/bills` |
