@@ -1,5 +1,7 @@
-package com.example.proiect_db.Models;
+package com.example.proiect_db.Model;
 
+import com.example.proiect_db.Enum.RoomStatus;
+import com.example.proiect_db.Enum.Type;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

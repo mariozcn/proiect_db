@@ -1,9 +1,9 @@
-package com.example.proiect_db.Models;
+package com.example.proiect_db.Model;
 
 
+import com.example.proiect_db.Enum.AppStatus;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
-import org.hibernate.annotations.CurrentTimestamp;
 
 import java.time.LocalDateTime;
 

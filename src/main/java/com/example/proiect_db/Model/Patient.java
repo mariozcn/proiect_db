@@ -1,5 +1,7 @@
-package com.example.proiect_db.Models;
+package com.example.proiect_db.Model;
 
+import com.example.proiect_db.Enum.BloodType;
+import com.example.proiect_db.Enum.Gender;
 import jakarta.persistence.*;
 import org.hibernate.annotations.CreationTimestamp;
 

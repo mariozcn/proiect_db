@@ -1,5 +1,6 @@
-package com.example.proiect_db.Models;
+package com.example.proiect_db.Model;
 
+import com.example.proiect_db.Enum.Dosage;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;

@@ -1,4 +1,4 @@
-package com.example.proiect_db.Models;
+package com.example.proiect_db.Model;
 
 
 import jakarta.persistence.*;
