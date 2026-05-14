@@ -7,7 +7,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import java.time.LocalDateTime;
 
 @Entity
-@Table(name="departments")
+@Table(name = "departments")
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -73,19 +73,19 @@ public class Department {
         this.createdAt = createdAt;
     }
 
-    @Column(name="name",nullable = false)
+    @Column(name = "name", nullable = false)
     private String name;
 
-    @Column(name="description")
+    @Column(name = "description")
     private String description;
 
-    @Column(name="location")
+    @Column(name = "location")
     private String location;
 
-    @Column(name="phone")
+    @Column(name = "phone")
     private String phone;
 
     @CreationTimestamp
-    @Column(name="created_at",updatable = false)
+    @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 }
