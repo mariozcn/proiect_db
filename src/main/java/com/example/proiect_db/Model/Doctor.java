@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class Doctor {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -37,11 +37,11 @@ public class Doctor {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -112,7 +112,7 @@ public class Doctor {
     public Doctor() {
     }
 
-    public Doctor(Long id, String firstName, String lastName, String specialization, String licenseNumber, String email, String phone, LocalDate hireDate, Department department) {
+    public Doctor(Integer id, String firstName, String lastName, String specialization, String licenseNumber, String email, String phone, LocalDate hireDate, Department department) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

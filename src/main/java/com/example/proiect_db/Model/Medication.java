@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Medication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "name", nullable = false)
     private String name;
@@ -32,11 +32,11 @@ public class Medication {
     public Medication() {
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -88,7 +88,7 @@ public class Medication {
         this.expiryDate = expiryDate;
     }
 
-    public Medication(Long id, String name, String manufacturer, Dosage dosageForm, BigDecimal unitPrice, Integer stockQuantity, LocalDate expiryDate) {
+    public Medication(Integer id, String name, String manufacturer, Dosage dosageForm, BigDecimal unitPrice, Integer stockQuantity, LocalDate expiryDate) {
         this.id = id;
         this.name = name;
         this.manufacturer = manufacturer;

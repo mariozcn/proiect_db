@@ -9,7 +9,7 @@ import java.time.LocalDate;
 public class MedicalRecord {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
@@ -25,11 +25,11 @@ public class MedicalRecord {
     @Column(name = "diagnosis", columnDefinition = "TEXT", nullable = false)
     private String diagnosis;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -84,7 +84,7 @@ public class MedicalRecord {
     public MedicalRecord() {
     }
 
-    public MedicalRecord(Long id, Patient patient, Doctor doctor, LocalDate recordDate, String diagnosis, String treatment, String notes) {
+    public MedicalRecord(Integer id, Patient patient, Doctor doctor, LocalDate recordDate, String diagnosis, String treatment, String notes) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;

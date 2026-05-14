@@ -11,12 +11,12 @@ import java.time.LocalDateTime;
 public class Department {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     public Department() {
     }
 
-    public Department(Long id, String name, String description, String location, String phone, LocalDateTime createdAt) {
+    public Department(Integer id, String name, String description, String location, String phone, LocalDateTime createdAt) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -25,11 +25,11 @@ public class Department {
         this.createdAt = createdAt;
     }
 
-    public Long getId() {
+    public Integer   getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

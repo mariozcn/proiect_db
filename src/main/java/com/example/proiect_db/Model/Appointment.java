@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 public class Appointment {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
@@ -39,11 +39,11 @@ public class Appointment {
     @Column(name = "created_at", updatable = false)
     private LocalDateTime createdAt;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -106,7 +106,7 @@ public class Appointment {
     public Appointment() {
     }
 
-    public Appointment(Long id, Patient patient, Doctor doctor, LocalDateTime appointmentDate, AppStatus status, String reason, String notes, LocalDateTime createdAt) {
+    public Appointment(Integer id, Patient patient, Doctor doctor, LocalDateTime appointmentDate, AppStatus status, String reason, String notes, LocalDateTime createdAt) {
         this.id = id;
         this.patient = patient;
         this.doctor = doctor;

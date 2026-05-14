@@ -11,7 +11,7 @@ import java.time.LocalDate;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "patient_id", nullable = false)
@@ -40,7 +40,7 @@ public class Bill {
     public Bill() {
     }
 
-    public Bill(Long id, Patient patient, Admission admission, BigDecimal totalAmount, BigDecimal paidAmount, BillStatus status, LocalDate issueDate, LocalDate dueDate) {
+    public Bill(Integer id, Patient patient, Admission admission, BigDecimal totalAmount, BigDecimal paidAmount, BillStatus status, LocalDate issueDate, LocalDate dueDate) {
         this.id = id;
         this.patient = patient;
         this.admission = admission;
@@ -51,11 +51,11 @@ public class Bill {
         this.dueDate = dueDate;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 

@@ -11,7 +11,7 @@ import java.math.BigDecimal;
 public class Room {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "room_number", nullable = false)
     private String roomNumber;
@@ -34,11 +34,11 @@ public class Room {
     @JoinColumn(name = "department_id", nullable = false)
     private Department department;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -93,7 +93,7 @@ public class Room {
     public Room() {
     }
 
-    public Room(Long id, String roomNumber, Type type, Integer capacity, RoomStatus roomStatus, BigDecimal dailyRate, Department department) {
+    public Room(Integer id, String roomNumber, Type type, Integer capacity, RoomStatus roomStatus, BigDecimal dailyRate, Department department) {
         this.id = id;
         this.roomNumber = roomNumber;
         this.type = type;

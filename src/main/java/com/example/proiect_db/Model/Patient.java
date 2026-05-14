@@ -12,7 +12,7 @@ import java.time.LocalDate;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @Column(name = "first_name", nullable = false)
     private String firstName;
@@ -41,11 +41,11 @@ public class Patient {
     @Column(name = "registration_date")
     private LocalDate registrationDate;
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
@@ -124,7 +124,7 @@ public class Patient {
     public Patient() {
     }
 
-    public Patient(Long id, String firstName, String lastName, LocalDate dateOfBirth, String phone, String email, String address, BloodType bloodType, LocalDate registrationDate, Gender gender) {
+    public Patient(Integer id, String firstName, String lastName, LocalDate dateOfBirth, String phone, String email, String address, BloodType bloodType, LocalDate registrationDate, Gender gender) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;

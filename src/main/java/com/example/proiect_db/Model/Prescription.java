@@ -7,7 +7,7 @@ import jakarta.persistence.*;
 public class Prescription {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "medical_record_id", nullable = false)
@@ -32,7 +32,7 @@ public class Prescription {
     public Prescription() {
     }
 
-    public Prescription(Long id, MedicalRecord medicalRecord, Medication medication, String dosage, String frequency, Integer durationDays, String instructions) {
+    public Prescription(Integer id, MedicalRecord medicalRecord, Medication medication, String dosage, String frequency, Integer durationDays, String instructions) {
         this.id = id;
         this.medicalRecord = medicalRecord;
         this.medication = medication;
@@ -42,11 +42,11 @@ public class Prescription {
         this.instructions = instructions;
     }
 
-    public Long getId() {
+    public Integer getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
